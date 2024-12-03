@@ -1,10 +1,3 @@
-module Main where
-
-import Data.List
-
-main :: IO ()
-main = return ()
-
 part1 :: IO ()
 part1 = do
   input <- readFile "input.txt"

@@ -1,9 +1,4 @@
-module Main where
-
 import Data.List (sort)
-
-main :: IO ()
-main = return ()
 
 part1 :: IO ()
 part1 = do
