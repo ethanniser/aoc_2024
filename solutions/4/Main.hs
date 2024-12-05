@@ -1,5 +1,5 @@
 import Data.Function (on)
-import Data.List (groupBy, isPrefixOf, sortOn, transpose)
+import Data.List (groupBy, intercalate, isPrefixOf, permutations, sortOn, transpose)
 
 diagonals :: [[a]] -> [[a]]
 diagonals matrix =
@@ -15,8 +15,8 @@ searchForXMAS s = inner 0 s
         | otherwise = inner acc cs
     inner acc "" = acc
 
-getPermutations :: String -> [String]
-getPermutations input = concat [lines', linesReversed, cols, colsReversed, d1, d2, d3, d4]
+getPermutations :: String -> [[String]]
+getPermutations input = [lines', linesReversed, cols, colsReversed, d1, d2, d3, d4]
   where
     lines' = lines input
     linesReversed = map reverse lines'
@@ -25,12 +25,15 @@ getPermutations input = concat [lines', linesReversed, cols, colsReversed, d1, d
     d1 = diagonals lines'
     d2 = diagonals $ reverse lines'
     d3 = diagonals cols
-    d4 = diagonals $ reverse cols
+    d4 = diagonals $ map reverse cols
+
+printPermutations :: [[String]] -> IO ()
+printPermutations = mapM_ (putStrLn . unwords)
 
 part1 :: IO ()
 part1 = do
-    input <- readFile "test.txt"
-    let result = sum $ map searchForXMAS $ getPermutations input
+    input <- readFile "input.txt"
+    let result = sum $ map searchForXMAS $ concat $ getPermutations input
     print result
 
 part2 :: IO ()
