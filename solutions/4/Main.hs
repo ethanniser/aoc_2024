@@ -15,24 +15,22 @@ searchForXMAS s = inner 0 s
         | otherwise = inner acc cs
     inner acc "" = acc
 
-runSearchForRows :: [String] -> Int
-runSearchForRows = sum . map searchForXMAS
-
--- 12
--- 34
+getPermutations :: String -> [String]
+getPermutations input = concat [lines', linesReversed, cols, colsReversed, d1, d2, d3, d4]
+  where
+    lines' = lines input
+    linesReversed = map reverse lines'
+    cols = transpose lines'
+    colsReversed = map reverse cols
+    d1 = diagonals lines'
+    d2 = diagonals $ reverse lines'
+    d3 = diagonals cols
+    d4 = diagonals $ reverse cols
 
 part1 :: IO ()
 part1 = do
     input <- readFile "test.txt"
-    let lines' = lines input
-    let linesReversed = map reverse lines'
-    let cols = transpose lines'
-    let colsReversed = map reverse cols
-    let d1 = diagonals lines'
-    let d2 = diagonals $ reverse lines'
-    let d3 = diagonals cols
-    let d4 = diagonals $ reverse cols
-    let result = sum $ map runSearchForRows [lines', linesReversed, cols, colsReversed, d1, d2, d3, d4]
+    let result = sum $ map searchForXMAS $ getPermutations input
     print result
 
 part2 :: IO ()
